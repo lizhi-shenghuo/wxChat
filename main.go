@@ -19,7 +19,8 @@ func main() {
 	// 实例化wx对象
 	controller.InitWechat()
 
-	http.HandleFunc("/", controller.ServeWechat)
+	// 路由太少 没有抽离
+	http.HandleFunc("/", controller.SendRepeatMsg)
 
 	fmt.Println("wechat server listener at", ":8082")
 	err = http.ListenAndServe(":8082", nil)

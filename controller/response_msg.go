@@ -7,7 +7,8 @@ import (
 	"github.com/silenceper/wechat/v2/officialaccount/message"
 )
 
-func ServeWechat(rw http.ResponseWriter, req *http.Request) {
+// 回复和用户一样的话
+func SendRepeatMsg(rw http.ResponseWriter, req *http.Request) {
 
 	// 传入request和responseWriter
 	server := officialAccount.GetServer(req, rw)
