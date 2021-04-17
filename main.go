@@ -6,6 +6,7 @@ package main
 
 import (
 	"fmt"
+	"getaway/config"
 	"getaway/controller"
 	"getaway/dao/redis"
 	"net/http"
@@ -17,10 +18,12 @@ func main() {
 		fmt.Printf("connect redis error , err=%v\n", err)
 	}
 	// 实例化wx对象
-	controller.InitWechat()
+	gCfg := config.GetConfig()
+	controller.InitWechat(gCfg)
 
 	// 路由太少 没有抽离
-	http.HandleFunc("/", controller.SendRepeatMsg)
+	//http.HandleFunc("/", controller.SendRepeatMsg)
+	http.HandleFunc("/", controller.SendImgMsg)
 
 	fmt.Println("wechat server listener at", ":8082")
 	err = http.ListenAndServe(":8082", nil)
