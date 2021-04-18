@@ -1,4 +1,4 @@
-package controller
+package service
 
 import (
 	"fmt"
@@ -11,13 +11,13 @@ import (
 func SendImgMsg(rw http.ResponseWriter, req *http.Request) {
 
 	// 传入request和responseWriter
-	server := officialAccount.GetServer(req, rw)
+	server := OfficialAccount.GetServer(req, rw)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 		//TODO
 		//回复图片：演示回复用户发送的消息
-		println(msg.Content)
-		m := officialAccount.GetMaterial()
+		println(msg.Event)
+		m := OfficialAccount.GetMaterial()
 		mediaID, url, err := m.AddMaterial(mater.MediaTypeImage, "./images/105.png")
 		if err != nil {
 			panic(err)

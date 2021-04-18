@@ -9,6 +9,7 @@ import (
 	"getaway/config"
 	"getaway/controller"
 	"getaway/dao/redis"
+	"getaway/service"
 	"net/http"
 )
 
@@ -19,11 +20,11 @@ func main() {
 	}
 	// 实例化wx对象
 	gCfg := config.GetConfig()
-	controller.InitWechat(gCfg)
+	service.InitWechat(gCfg)
 
 	// 路由太少 没有抽离
 	//http.HandleFunc("/", controller.SendRepeatMsg)
-	http.HandleFunc("/", controller.SendImgMsg)
+	http.HandleFunc("/", controller.ServeWechat)
 
 	fmt.Println("wechat server listener at", ":8082")
 	err = http.ListenAndServe(":8082", nil)

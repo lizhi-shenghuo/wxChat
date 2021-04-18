@@ -1,4 +1,4 @@
-package controller
+package service
 
 import (
 	"getaway/config"
@@ -8,7 +8,7 @@ import (
 	offConfig "github.com/silenceper/wechat/v2/officialaccount/config"
 )
 
-var officialAccount *officialaccount.OfficialAccount
+var OfficialAccount *officialaccount.OfficialAccount
 
 //在这里已经设置了全局cache，则在具体获取公众号/小程序等操作实例之后无需再设置，设置即覆盖
 func InitWechat(gCfg *config.Config) *officialaccount.OfficialAccount {
@@ -23,7 +23,7 @@ func InitWechat(gCfg *config.Config) *officialaccount.OfficialAccount {
 		//EncodingAESKey: "xxxx",
 		Cache: memory,
 	}
-	officialAccount = wc.GetOfficialAccount(cfg)
+	OfficialAccount = wc.GetOfficialAccount(cfg)
 
-	return officialAccount
+	return OfficialAccount
 }

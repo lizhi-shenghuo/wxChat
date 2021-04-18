@@ -1,4 +1,4 @@
-package controller
+package service
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 func SendRepeatMsg(rw http.ResponseWriter, req *http.Request) {
 
 	// 传入request和responseWriter
-	server := officialAccount.GetServer(req, rw)
+	server := OfficialAccount.GetServer(req, rw)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 		//TODO
