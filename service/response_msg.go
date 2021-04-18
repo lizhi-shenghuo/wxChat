@@ -2,16 +2,13 @@ package service
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/silenceper/wechat/v2/officialaccount/message"
+	"github.com/silenceper/wechat/v2/officialaccount/server"
 )
 
 // 回复和用户一样的话
-func SendRepeatMsg(rw http.ResponseWriter, req *http.Request) {
+func SendRepeatMsg(server *server.Server) *server.Server {
 
-	// 传入request和responseWriter
-	server := OfficialAccount.GetServer(req, rw)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 		//TODO
@@ -20,11 +17,5 @@ func SendRepeatMsg(rw http.ResponseWriter, req *http.Request) {
 		fmt.Println(text)
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	})
-
-	//处理消息接收以及回复
-	server.Serve()
-
-	//发送回复的消息
-	server.Send()
-
+	return server
 }
