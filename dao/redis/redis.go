@@ -6,17 +6,17 @@ import (
 )
 
 var (
-	client *redis.Client
-	Nil    = redis.Nil
+	RedisClient *redis.Client
+	Nil         = redis.Nil
 )
 
 func RsInit() (err error) {
 	cfg := config.GetConfig()
-	client := redis.NewClient(&redis.Options{
+	RedisClient = redis.NewClient(&redis.Options{
 		Addr: cfg.Redis.Host,
 		DB:   0,
 	})
-	_, err = client.Ping().Result()
+	_, err = RedisClient.Ping().Result()
 	if err != nil {
 		return err
 	}
@@ -24,5 +24,5 @@ func RsInit() (err error) {
 }
 
 func Close() {
-	_ = client.Close()
+	_ = RedisClient.Close()
 }

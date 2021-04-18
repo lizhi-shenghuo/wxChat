@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"getaway/dao/redis"
 	"getaway/service"
 	mater "github.com/silenceper/wechat/v2/officialaccount/material"
 	"github.com/silenceper/wechat/v2/officialaccount/message"
@@ -15,21 +16,24 @@ func ServeWechat(rw http.ResponseWriter, req *http.Request) {
 	// 传入request和responseWriter
 	server := service.OfficialAccount.GetServer(req, rw)
 
-	//u := service.OfficialAccount.GetUser()
-	//message.MixMessage.GetOpenID()
-	//text := message.NewText()
-	//info, err := u.GetUserInfo()
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println("=====",userInfo)
-	//fmt.Printf("%#v",*userInfo)
-
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 		//TODO
 		//回复消息：演示回复用户发送的消息
 		//msg.MsgType
+		fmt.Printf("msg----->:%#v\n", msg)
+		switch msg.Event {
+		case message.EventSubscribe:
+			con, err := redis.RedisClient.Get("con").Result()
+			if err != nil {
+				fmt.Printf("redis get con failed, error(%v)\n", err)
+			}
+
+			text := message.NewText(con)
+			fmt.Println(text)
+			return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
+		}
+
 		switch msg.Content {
 		case "明白":
 			m := service.OfficialAccount.GetMaterial()
