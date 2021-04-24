@@ -10,6 +10,7 @@ import (
 	"getaway/controller"
 	"getaway/dao/redis"
 	"getaway/service"
+	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
@@ -22,12 +23,20 @@ func main() {
 	gCfg := config.GetConfig()
 	service.InitWechat(gCfg)
 
-	// 路由太少 没有抽离
-	//http.HandleFunc("/", controller.SendRepeatMsg)
-	http.HandleFunc("/", controller.ServeWechat)
+	go func() {
+		r := gin.Default()
+		r.PUT("api/v1/UpdateSubScribeMsg/:data", controller.UpdatesubScribeMsg)
+		r.PUT("api/v1/UpdateGroupQrCode/:data", controller.UpdateGroupQrCode)
+		r.PUT("api/v1/UpdateCustomerMsg/:data", controller.UpdateCustomerMsg)
+		r.PUT("api/v1/UpdateCustomerImgMsg/:data", controller.UpdateCustomerImgMsg)
+		r.PUT("api/v1/UpdateSendTimer/:data", controller.UpdateSendTimer)
 
-	fmt.Println("wechat server listener at", ":8082")
-	err = http.ListenAndServe(":8082", nil)
+		r.Run(":6666")
+	}()
+
+	http.HandleFunc("/", controller.ServeWechat)
+	fmt.Println("wechat server listener at", ":8090")
+	err = http.ListenAndServe(":8090", nil)
 	if err != nil {
 		fmt.Printf("start server error , err=%v\n", err)
 	}

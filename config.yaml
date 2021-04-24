@@ -7,6 +7,12 @@ redis:
 
 # 微信公众号相关配置
 officialAccountConfig:
-  appID: wxb7647d47db879359
-  appSecret: ce3a65460ee21189fbf51a892c1f8085
+  appID: wx0b534af1ea7cbb1e
+  appSecret: 66b0d0eab7f2c6799743a79018c91f99
   token: 1234
+
+mysql:
+  path: 47.114.171.174:3306
+  dbName: wxChat
+  username: root
+  password: Lizhi888
