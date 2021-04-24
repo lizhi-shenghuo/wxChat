@@ -13,7 +13,6 @@ func UpdatesubScribeMsg(c *gin.Context) {
 	if err != nil {
 		log.Printf("subScribeMsg set error, err(%v)", err)
 		ResponseErrorWithMsg(c, CodeServerBusy, "服务器错误")
-
 	}
 	ResponseSuccess(c, result)
 }
