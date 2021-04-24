@@ -10,22 +10,24 @@ import (
 var (
 	cfgFile = flag.String("config", "./config.yaml", "配置文件路径")
 
-	cfg *Config
+	cfg *AppConfig
 )
 
 //Config example config
-type Config struct {
-	Listen string `yaml:"listen"`
-	Redis  struct {
-		Host        string `yaml:"host"`
-		Password    string `yaml:"password"`
-		Database    int    `yaml:"database"`
-		MaxActive   int    `yaml:"maxActive"`
-		MaxIdle     int    `yaml:"maxIdle"`
-		IdleTimeout int    `yaml:"idleTimeout"`
-	} `yaml:"redis"`
+type AppConfig struct {
+	Listen                 string `yaml:"listen"`
+	*Redis                 `yaml:"redis"`
 	*OfficialAccountConfig `yaml:"officialAccountConfig"`
 	*Mysql                 `yaml:"mysql"`
+}
+
+type Redis struct {
+	Host        string `yaml:"host"`
+	Password    string `yaml:"password"`
+	Database    int    `yaml:"database"`
+	MaxActive   int    `yaml:"maxActive"`
+	MaxIdle     int    `yaml:"maxIdle"`
+	IdleTimeout int    `yaml:"idleTimeout"`
 }
 
 //OfficialAccountConfig 公众号相关配置
@@ -49,7 +51,7 @@ type Mysql struct {
 }
 
 //GetConfig 获取配置
-func GetConfig() *Config {
+func GetConfig() *AppConfig {
 	if cfg != nil {
 		return cfg
 	}
@@ -58,7 +60,7 @@ func GetConfig() *Config {
 		panic(err)
 	}
 
-	cfgData := &Config{}
+	cfgData := &AppConfig{}
 	err = yaml.Unmarshal(bytes, cfgData)
 	if err != nil {
 		panic(err)

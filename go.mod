@@ -9,5 +9,6 @@ require (
 	github.com/onsi/gomega v1.11.0 // indirect
 	github.com/silenceper/wechat/v2 v2.0.5
 	gopkg.in/yaml.v2 v2.4.0
+	gorm.io/driver/mysql v1.0.5
 	gorm.io/gorm v1.21.8
 )
